@@ -1,5 +1,5 @@
 import express from 'express'
-import data from '../db.json'
+import data from './db.json'
 
 const app = express()
 const PORT = 8080

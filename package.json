@@ -2,10 +2,10 @@
   "name": "server-app",
   "version": "1.0.0",
   "description": "express server for my-app (next js)",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startDev": "nodemon src/index.ts"
+    "startDev": "nodemon index.ts"
   },
   "keywords": [
     "express",
