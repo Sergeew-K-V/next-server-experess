@@ -1,8 +1,7 @@
 import express from 'express'
 import data from './db.json'
-
 const app = express()
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 
 function startServer() {
   try {
@@ -18,6 +17,7 @@ function startServer() {
     })
   } catch (error) {
     alert(`Error ${error}`)
+    throw error
   }
 }
 
