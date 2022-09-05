@@ -1,7 +1,10 @@
 import express from 'express'
 import data from './db.json'
+import dotenv from 'dotenv'
+
+dotenv.config()
 const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081
 
 function startServer() {
   try {
@@ -16,8 +19,7 @@ function startServer() {
       console.log('Server started on PORT: ', PORT)
     })
   } catch (error) {
-    alert(`Error ${error}`)
-    throw error
+    return `Server have some errors: ${error}`
   }
 }
 
