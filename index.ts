@@ -1,6 +1,7 @@
 import express from 'express'
 import data from './db.json'
 import dotenv from 'dotenv'
+import path from 'path'
 
 dotenv.config()
 const app = express()
@@ -14,6 +15,8 @@ function startServer() {
     app.get('/menu', (req, res) => {
       res.send(data)
     })
+
+    app.use('/static', express.static(path.join(__dirname, 'public')))
 
     app.listen(PORT, () => {
       console.log('Server started on PORT: ', PORT)
