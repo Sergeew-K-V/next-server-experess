@@ -2,10 +2,13 @@ import express from 'express'
 import data from './db.json'
 import dotenv from 'dotenv'
 import path from 'path'
+import cors from 'cors'
 
 dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 8081
+
+app.use(cors())
 
 function startServer() {
   try {
