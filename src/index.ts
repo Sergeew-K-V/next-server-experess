@@ -9,24 +9,29 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 8081
 
-app.use(cors())
-
-const ConnectionToDb = async () => {
+async function ConnectionToCluster() {
   try {
-    if (process.env.DATABASE && process.env.DB_NAME !== undefined) {
-      const connection = await mongoose.connect(process.env.DATABASE + '/' + process.env.DB_NAME)
-      return console.log(`CONNECTION TO ${process.env.DB_NAME} DATABASE - COMPLETED`)
+    if (process.env.CLUSTER_HTTP && process.env.USERNAME && process.env.PASSWORD && process.env.CLUSTER !== undefined) {
+      await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER)
+      // await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER + '/' + process.env.DB_NAME_CLUSTER)
+      let db = mongoose.connection
+      console.log(`CONNECTION TO CLUSTER - COMPLETED`)
+      return db
     }
   } catch (error) {
-    return console.log('NOT CONNECTION TO DATABASE')
+    console.log('NOT CONNECTION TO DATABASE', error)
+    return ''
   }
 }
+
+app.use(cors())
+//sample_weatherdata
 
 function startServer() {
   try {
     app.use('/static', express.static(path.join(__dirname, 'public')))
-    ConnectionToDb()
-    const DB = mongoose.connection
+
+    const DB = ConnectionToCluster()
 
     app.get('/', (req, res) => {
       res.send('<h1>Server started on vercel</h1>')
