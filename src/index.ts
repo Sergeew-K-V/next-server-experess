@@ -1,49 +1,37 @@
 import express from 'express'
-import data from '../db.json'
 import dotenv from 'dotenv'
 import path from 'path'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import WeatherRouter from '../routes/Weather'
+import MenuRouter from '../routes/Menu'
+import HomeRouter from '../routes/Home'
+import WeatherDataRouter from '../routes/WeatherData'
 
 dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 8081
 
-async function ConnectionToCluster() {
+app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(cors())
+app.use(MenuRouter)
+app.use(HomeRouter)
+app.use(WeatherRouter)
+app.use(WeatherDataRouter)
+
+//sample_weatherdata
+// mongodb://localhost:27017/weatherDB
+async function startServer() {
   try {
     if (process.env.CLUSTER_HTTP && process.env.USERNAME && process.env.PASSWORD && process.env.CLUSTER !== undefined) {
-      await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER)
-      // await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER + '/' + process.env.DB_NAME_CLUSTER)
+      // await mongoose.connect('mongodb://localhost:27017/weatherDB')
+      // await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER + process.env.DB_NAME_CLUSTER)
+      await mongoose.connect(process.env.CLUSTER_HTTP + process.env.USERNAME + ':' + process.env.PASSWORD + process.env.CLUSTER + 'WeatherDB')
       let db = mongoose.connection
-      console.log(`CONNECTION TO CLUSTER - COMPLETED`)
-      return db
+      app.listen(PORT, () => {
+        console.log('Server started on PORT: ', PORT)
+      })
     }
-  } catch (error) {
-    console.log('NOT CONNECTION TO DATABASE', error)
-    return ''
-  }
-}
-
-app.use(cors())
-//sample_weatherdata
-
-function startServer() {
-  try {
-    app.use('/static', express.static(path.join(__dirname, 'public')))
-
-    const DB = ConnectionToCluster()
-
-    app.get('/', (req, res) => {
-      res.send('<h1>Server started on vercel</h1>')
-    })
-
-    app.get('/menu', (req, res) => {
-      res.send(data)
-    })
-
-    app.listen(PORT, () => {
-      console.log('Server started on PORT: ', PORT)
-    })
   } catch (error) {
     return `Server have some errors: ${error}`
   }
