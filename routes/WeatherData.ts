@@ -1,9 +1,10 @@
 import { Router } from 'express'
+import { CreateWeatherData, GetWeatherData } from '../controllers/WeatherData'
 
 const WeatherDataRouter = Router()
 
-WeatherDataRouter.get('/weather', (req, res) => {})
+WeatherDataRouter.get('/weatherdata', GetWeatherData)
 
-WeatherDataRouter.post('/weather', (req, res) => {})
+WeatherDataRouter.post('/weatherdata', CreateWeatherData)
 
 export default WeatherDataRouter

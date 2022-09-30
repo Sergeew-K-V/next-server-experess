@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Types } from 'mongoose'
 
 const WeatherSchema = new Schema({
-  id: Number,
-  Month: Number,
-  Region: String,
-  WeatherDataId: Number,
+  month: Number,
+  year: Number,
+  region: String,
+  weatherDataId: Types.ObjectId,
 })
 
-export default model('Weather', WeatherSchema)
+export default model('WeatherModel', WeatherSchema)

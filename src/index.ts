@@ -18,7 +18,7 @@ app.use(MenuRouter)
 app.use(HomeRouter)
 app.use(WeatherRouter)
 app.use(WeatherDataRouter)
-
+//WeatherDB
 //sample_weatherdata
 // mongodb://localhost:27017/weatherDB
 async function startServer() {
@@ -33,10 +33,10 @@ async function startServer() {
       })
     }
   } catch (error) {
-    return `Server have some errors: ${error}`
+    return console.log(`Server have some errors: ${error}`)
   }
 }
 
 startServer()
 
-module.exports = app
+export default app
