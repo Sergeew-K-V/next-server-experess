@@ -1,5 +1,7 @@
-import express from 'express'
 import dotenv from 'dotenv'
+dotenv.config()
+
+import express from 'express'
 import path from 'path'
 import cors from 'cors'
 import mongoose from 'mongoose'
@@ -7,20 +9,24 @@ import WeatherRouter from '../routes/Weather'
 import MenuRouter from '../routes/Menu'
 import HomeRouter from '../routes/Home'
 import WeatherDataRouter from '../routes/WeatherData'
+import bodyParser from 'body-parser'
 
-dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 8081
 
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(cors())
 app.use(MenuRouter)
 app.use(HomeRouter)
 app.use(WeatherRouter)
 app.use(WeatherDataRouter)
+
 //WeatherDB
 //sample_weatherdata
 // mongodb://localhost:27017/weatherDB
+
 async function startServer() {
   try {
     if (process.env.CLUSTER_HTTP && process.env.USERNAME && process.env.PASSWORD && process.env.CLUSTER !== undefined) {
