@@ -1,4 +1,4 @@
-import WeatherModel from '../models/Weather'
+import WeatherModel from '../models/WeatherModel'
 
 const CreateWeather = async (req: any, res: any) => {
   try {

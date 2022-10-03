@@ -1,4 +1,4 @@
-import WeatherDataModel from '../models/WeatherData'
+import WeatherDataModel from '../models/WeatherDataModel'
 
 const CreateWeatherData = async (req: any, res: any) => {
   try {
