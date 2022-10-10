@@ -20,7 +20,6 @@ const GetWeather = async (req: any, res: any) => {
         const weatherCollectionLimited = mongoose.connection.db.collection('MyWeatherDB').find().limit(limit)
         data = await weatherCollectionLimited.toArray()
         data = data.slice(0, limit)
-        console.log(data.length)
         res.status(200).json(data)
       }
     } else {
