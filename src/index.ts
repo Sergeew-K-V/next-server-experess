@@ -25,6 +25,7 @@ async function startServer() {
   try {
     if (process.env.CLUSTER !== undefined) {
       await mongoose.connect(process.env.CLUSTER)
+
       app.listen(PORT, () => {
         console.log('Server started on PORT: ', PORT)
       })
