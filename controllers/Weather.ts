@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-
+import type { WithId, Document } from 'mongodb'
 // const CreateWeather = async (req: any, res: any) => {
 //   try {
 //     // const WeatherData = await WeatherModel.create({ ...req.body })
@@ -11,17 +11,23 @@ import mongoose from 'mongoose'
 
 const GetWeather = async (req: any, res: any) => {
   try {
-    let data = await mongoose.connection.db.collection('MyWeatherDB').find().toArray()
-    console.log('1', req.query)
+    let data: WithId<Document>[]
+
     if (req.query) {
-      console.log('2', req.query)
       if (req.query._limit) {
-        console.log('3', req.query._limit)
-        data = data.slice(req.query._limit, data.length)
+        let limit = Number(req.query._limit)
+
+        const weatherCollectionLimited = mongoose.connection.db.collection('MyWeatherDB').find().limit(limit)
+        data = await weatherCollectionLimited.toArray()
+        data = data.slice(0, limit)
         console.log(data.length)
+        res.status(200).json(data)
       }
+    } else {
+      const weatherCollection = mongoose.connection.db.collection('MyWeatherDB').find()
+      data = await weatherCollection.toArray()
+      res.status(200).json(data)
     }
-    res.status(200).json(data)
   } catch (error) {
     res.json({ message: `Error ${error}` })
   }
