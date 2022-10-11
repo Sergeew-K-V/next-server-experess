@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import type { WithId, Document } from 'mongodb'
-import { ApplyQuery } from '../helpers'
+import { ApplyQuery, Convector } from '../helpers'
 // const CreateWeather = async (req: any, res: any) => {
 //   try {
 //     // const WeatherData = await WeatherModel.create({ ...req.body })
@@ -12,19 +12,27 @@ import { ApplyQuery } from '../helpers'
 
 const GetWeather = async (req: any, res: any) => {
   try {
-    const { requestLimit } = ApplyQuery(req.query)
+    if (process.env.DB_NAME) {
+      const { requestLimit, requestFilter } = ApplyQuery(req.query)
 
-    let data: WithId<Document>[]
+      let data: WithId<Document>[]
 
-    let weatherCollection = mongoose.connection.db.collection('MyWeatherDB').find()
+      let weatherCollection = mongoose.connection.db.collection(process.env.DB_NAME).find()
 
-    if (requestLimit) {
-      weatherCollection = weatherCollection.limit(Number(requestLimit))
+      if (requestFilter) {
+        console.log(requestFilter, 'controller')
+        // weatherCollection = weatherCollection.filter({ requestFilter })
+        // weatherCollection = weatherCollection.filter({ 'city.name': 'Kathmandu' })
+      }
+
+      if (requestLimit) {
+        weatherCollection = weatherCollection.limit(requestLimit)
+      }
+      data = await weatherCollection.toArray()
+      Convector(data)
+
+      res.status(200).json(data)
     }
-
-    data = await weatherCollection.toArray()
-
-    res.status(200).json(data)
   } catch (error) {
     res.json({ message: `Error ${error}` })
   }
