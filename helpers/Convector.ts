@@ -9,9 +9,6 @@ const Convector = (arrayOfData: Array<any>) => {
     el.main.temp_min = Number(el.main.temp_min.toPrecision(2))
     el.main.temp_max = Number(el.main.temp_max.toPrecision(2))
 
-    // console.log(el.main.temp.toPrecision(2))
-    // console.log(el.main.temp_min.toPrecision(2))
-    // console.log(el.main.temp_max.toPrecision(2))
     return el
   })
 }
