@@ -23,8 +23,8 @@ app.use(WeatherRouter)
 
 async function startServer() {
   try {
-    if (process.env.CLUSTER !== undefined) {
-      await mongoose.connect(process.env.CLUSTER)
+    if (process.env.CLUSTER && process.env.LOCAL !== undefined) {
+      await mongoose.connect(process.env.LOCAL)
 
       app.listen(PORT, () => {
         console.log('Server started on PORT: ', PORT)
