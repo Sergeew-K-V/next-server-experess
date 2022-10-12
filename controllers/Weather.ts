@@ -13,7 +13,7 @@ import { ApplyQuery, Convector } from '../helpers'
 const GetWeather = async (req: any, res: any) => {
   try {
     if (process.env.DB_NAME) {
-      const { requestLimit, requestFilter } = ApplyQuery(req.query)
+      const { requestLimit, requestFilter, requestBottomRange, requestTopRange } = ApplyQuery(req.query)
 
       let data: WithId<Document>[]
 
@@ -28,9 +28,15 @@ const GetWeather = async (req: any, res: any) => {
       if (requestLimit) {
         weatherCollection = weatherCollection.limit(requestLimit)
       }
-      data = await weatherCollection.toArray()
-      Convector(data)
 
+      if (requestBottomRange && requestTopRange) {
+        data = await weatherCollection.limit(requestTopRange).toArray()
+        data = data.slice(requestBottomRange, requestTopRange)
+      } else {
+        data = await weatherCollection.toArray()
+      }
+
+      Convector(data)
       res.status(200).json(data)
     }
   } catch (error) {
