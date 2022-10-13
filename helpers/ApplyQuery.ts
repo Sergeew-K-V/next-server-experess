@@ -1,14 +1,26 @@
+import { WeatherFilter } from '../types'
+
 const ApplyQuery = (requestQuery: any) => {
   let requestLimit: number = 0
   let requestBottomRange: number = 0
   let requestTopRange: number = 0
-  let requestFilter: object = {}
+  let requestFilter: { type: string; value: number | string } = {
+    type: WeatherFilter.city,
+    value: '',
+  }
 
   try {
-    if (requestQuery._filter) {
-      console.log(requestQuery._filter)
-      console.log(requestQuery)
-      requestFilter = requestQuery._filter
+    if (requestQuery._filterType && requestQuery._filterValue) {
+      if (requestQuery._filterType === WeatherFilter.country) {
+        requestFilter.type = `city.${requestQuery._filterType}`
+        requestFilter.value = requestQuery._filterValue
+      } else if (requestQuery._filterType === WeatherFilter.city) {
+        requestFilter.type = `${requestQuery._filterType}.name`
+        requestFilter.value = requestQuery._filterValue
+      } else {
+        requestFilter.type = `main.${requestQuery._filterType}`
+        requestFilter.value = Number(requestQuery._filterValue)
+      }
     }
 
     if (requestQuery._limit) {

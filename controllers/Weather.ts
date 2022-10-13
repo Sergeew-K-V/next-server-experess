@@ -19,10 +19,8 @@ const GetWeather = async (req: any, res: any) => {
 
       let weatherCollection = mongoose.connection.db.collection(process.env.DB_NAME).find()
 
-      if (requestFilter) {
-        console.log(requestFilter, 'controller')
-        // weatherCollection = weatherCollection.filter({ requestFilter })
-        // weatherCollection = weatherCollection.filter({ 'city.name': 'Kathmandu' })
+      if (requestFilter.type && requestFilter.value) {
+        weatherCollection = weatherCollection.filter(requestFilter)
       }
 
       if (requestLimit) {
