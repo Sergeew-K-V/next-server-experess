@@ -1,11 +1,4 @@
 import { WeatherFilter } from '../types'
-// WeatherFilter.city |
-//       WeatherFilter.country |
-//       WeatherFilter.temp |
-//       WeatherFilter.max_temp |
-//       WeatherFilter.min_temp |
-//       WeatherFilter.pressure |
-//       WeatherFilter.humidity
 
 const ApplyQuery = (requestQuery: any) => {
   let requestLimit: number = 0
