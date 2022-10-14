@@ -16,12 +16,9 @@ const GetWeather = async (req: any, res: any) => {
       const { requestLimit, requestFilter, requestBottomRange, requestTopRange } = ApplyQuery(req.query)
 
       let data: WithId<Document>[]
-      console.log(requestFilter)
       let weatherCollection = mongoose.connection.db.collection(process.env.DB_NAME).find()
-      // console.log(JSON.stringify(requestFilter) === JSON.stringify({ 'main.temp': 295.579 }))
-      // console.log(JSON.stringify(requestFilter))
-      // console.log(JSON.stringify({ 'main.temp': 295.579 }))
-      if (requestFilter) {
+
+      if (!Object.values(requestFilter).includes(NaN)) {
         weatherCollection = weatherCollection.filter(requestFilter)
       }
 
@@ -37,6 +34,7 @@ const GetWeather = async (req: any, res: any) => {
       }
 
       Convector(data)
+
       res.status(200).json(data)
     }
   } catch (error) {

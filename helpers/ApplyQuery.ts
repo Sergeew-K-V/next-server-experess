@@ -23,19 +23,6 @@ const ApplyQuery = (requestQuery: any) => {
   }
 
   try {
-    // if (requestQuery._filterType && requestQuery._filterValue) {
-    //   if (requestQuery._filterType === WeatherFilter.country) {
-    //     // requestFilter.type = `city.${requestQuery._filterType}`
-    //     // requestFilter.value = requestQuery._filterValue
-    //   } else if (requestQuery._filterType === WeatherFilter.city) {
-    //     // requestFilter.type = `${requestQuery._filterType}.name`
-    //     // requestFilter.value = requestQuery._filterValue
-    //   } else {
-    //     // requestFilter.type = `main.${requestQuery._filterType}`
-    //     // requestFilter.value = Number(requestQuery._filterValue)
-    //   }
-    // }
-
     if (requestQuery._limit) {
       requestLimit = Number(requestQuery._limit)
     }
