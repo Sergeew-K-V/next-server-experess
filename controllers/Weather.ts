@@ -14,7 +14,7 @@ const GetWeather = async (req: any, res: any) => {
   try {
     if (process.env.DB_NAME) {
       const { requestLimit, requestFilter, requestBottomRange, requestTopRange } = ApplyQuery(req.query)
-
+      console.log(requestFilter)
       let data: WithId<Document>[]
       let weatherCollection = mongoose.connection.db.collection(process.env.DB_NAME).find()
 

@@ -4,8 +4,11 @@ const ApplyQuery = (requestQuery: any) => {
   let requestLimit: number = 0
   let requestBottomRange: number = 0
   let requestTopRange: number = 0
+  console.log(requestQuery)
   let requestFilter = {
-    [requestQuery._filterType === WeatherFilter.city
+    [requestQuery._filterType === WeatherFilter.lat || requestQuery._filterType === WeatherFilter.lon
+      ? `city.coord.${requestQuery._filterType}`
+      : requestQuery._filterType === WeatherFilter.city
       ? `${requestQuery._filterType}.findname`
       : requestQuery._filterType === WeatherFilter.country
       ? `city.${requestQuery._filterType}`

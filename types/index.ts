@@ -6,4 +6,6 @@ export enum WeatherFilter {
   max_temp = 'max_temp',
   humidity = 'humidity',
   pressure = 'pressure',
+  lat = 'lat',
+  lon = 'lon',
 }
