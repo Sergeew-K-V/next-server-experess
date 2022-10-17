@@ -1,34 +1,21 @@
-import { WeatherFilter } from '../types'
+import { GetKey, GetValue } from './InitFilter'
 
 const ApplyQuery = (requestQuery: any) => {
   let requestLimit: number = 0
   let requestBottomRange: number = 0
   let requestTopRange: number = 0
-  console.log(requestQuery)
+
   let requestFilter = {
-    [requestQuery._filterType === WeatherFilter.lat || requestQuery._filterType === WeatherFilter.lon
-      ? `city.coord.${requestQuery._filterType}`
-      : requestQuery._filterType === WeatherFilter.city
-      ? `${requestQuery._filterType}.findname`
-      : requestQuery._filterType === WeatherFilter.country
-      ? `city.${requestQuery._filterType}`
-      : `main.${requestQuery._filterType}`]:
-      requestQuery._filterType === WeatherFilter.city || requestQuery._filterType === WeatherFilter.country
-        ? requestQuery._filterValue
-        : Number(requestQuery._filterValue),
+    [GetKey(requestQuery._filterType)]: GetValue(requestQuery._filterType, requestQuery._filterValue),
   }
 
-  try {
-    if (requestQuery._limit) {
-      requestLimit = Number(requestQuery._limit)
-    }
+  if (requestQuery._limit) {
+    requestLimit = Number(requestQuery._limit)
+  }
 
-    if (requestQuery._bottomRange && requestQuery._topRange) {
-      requestBottomRange = Number(requestQuery._bottomRange)
-      requestTopRange = Number(requestQuery._topRange)
-    }
-  } catch (error) {
-    console.log('Error in query', error)
+  if (requestQuery._bottomRange && requestQuery._topRange) {
+    requestBottomRange = Number(requestQuery._bottomRange)
+    requestTopRange = Number(requestQuery._topRange)
   }
 
   return { requestLimit, requestFilter, requestBottomRange, requestTopRange }
