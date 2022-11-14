@@ -17,5 +17,6 @@ export const GetValue = (type: string, value: string | number) => {
   if (type === WeatherFilter.city || type === WeatherFilter.country) {
     return value
   }
-  return Number(value)
+  return Number(value) 
+  // return Number(value) || null
 }
