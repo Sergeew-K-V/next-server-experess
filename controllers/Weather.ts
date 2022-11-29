@@ -10,6 +10,17 @@ import { ApplyQuery, Convector } from '../helpers'
 //   }
 // }
 
+const UpdateDBFields = async (req: any, res: any) => {
+  try {
+    if (process.env.DB_NAME) {
+      // const collection = mongoose.connection.db.collection(process.env.DB_NAME).updateMany()
+      // res.status(202).json()
+    }
+  } catch (error) {
+    res.json({ message: `Error ${error}` })
+  }
+}
+
 const GetWeather = async (req: any, res: any) => {
   try {
     if (process.env.DB_NAME) {
@@ -41,4 +52,4 @@ const GetWeather = async (req: any, res: any) => {
   }
 }
 
-export { GetWeather }
+export { GetWeather, UpdateDBFields }
