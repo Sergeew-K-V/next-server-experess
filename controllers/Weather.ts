@@ -31,7 +31,7 @@ const GetWeather = async (req: any, res: any) => {
       if (!Object.values(requestFilter).includes(NaN)) {
         weatherCollection = weatherCollection.filter(requestFilter)
       }
-
+      console.log(requestLimit, 'requestLimit')
       if (requestLimit) {
         weatherCollection = weatherCollection.limit(requestLimit)
       }
@@ -41,6 +41,7 @@ const GetWeather = async (req: any, res: any) => {
         data = data.slice(requestBottomRange, requestTopRange)
       } else {
         data = await weatherCollection.toArray()
+        console.log(data.length)
       }
 
       Convector(data)

@@ -10,7 +10,9 @@ const ApplyQuery = (requestQuery: any) => {
   }
 
   if (requestQuery._limit) {
-    requestLimit = Number(requestQuery._limit)
+    if (requestQuery._limit !== 'All') {
+      requestLimit = Number(requestQuery._limit)
+    }
   }
 
   if (requestQuery._bottomRange && requestQuery._topRange) {
