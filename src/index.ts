@@ -20,12 +20,10 @@ app.use(cors())
 app.use(MenuRouter)
 app.use(HomeRouter)
 app.use(WeatherRouter)
-console.log('start')
+
 async function startServer() {
-console.log('start2')
   try {
-    if (process.env.CLUSTER && process.env.LOCAL !== undefined) {
-      console.log('start3')
+    if (process.env.CLUSTER) {
       await mongoose.connect(process.env.CLUSTER)
 
       app.listen(PORT, () => {
@@ -37,8 +35,6 @@ console.log('start2')
   }
 }
 
-console.log('start4')
 startServer()
-console.log('start5')
 
 export default app
