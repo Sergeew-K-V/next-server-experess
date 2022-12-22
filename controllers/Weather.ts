@@ -26,7 +26,7 @@ const GetWeather = async (req: any, res: any) => {
     if (process.env.DB_NAME) {
       const { requestLimit, requestFilter, requestBottomRange, requestTopRange } = ApplyQuery(req.query)
       let data: WithId<Document>[]
-      let weatherCollection = mongoose.connection.db.collection('WeatherDB').find()
+      let weatherCollection = mongoose.connection.db.collection(process.env.DB_NAME).find()
 
       if (!Object.values(requestFilter).includes(NaN)) {
         weatherCollection = weatherCollection.filter(requestFilter)
